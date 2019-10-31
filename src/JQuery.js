@@ -1,5 +1,6 @@
 window.JQuery = function (selectorORstringORarray) {
     let elements
+    // 重载
     if (typeof selectorORstringORarray === 'string') {
         if (selectorORstringORarray[0] === '<') {
             elements = [createElements(selectorORstringORarray)]
@@ -10,15 +11,16 @@ window.JQuery = function (selectorORstringORarray) {
         elements = selectorORstringORarray
     }
 
-
     function createElements(string) {
         let container = document.createElement('template')
         container.innerHTML = string.trim()
         return container.content.firstChild
     }
 
+    // api.__proto__ = JQuery.prototype
     const api = Object.create(JQuery.prototype)
 
+    // api.elements = elements;
     Object.assign(api, {
         jquery: true,
         elements: elements,
@@ -29,6 +31,7 @@ window.JQuery = function (selectorORstringORarray) {
 }
 
 JQuery.prototype = {
+    // 补上constructor
     constructor: JQuery,
     addClass(className) {
         for (let i = 0; i < this.elements.length; i++) {
